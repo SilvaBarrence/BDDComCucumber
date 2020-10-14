@@ -26,24 +26,32 @@ public class LoginSteps {
 
 	@Quando("realiza login")
 	public void realiza_login() {
-		leiloesPage = this.loginPage.realizaLoginComo("Fulano", "pass");
+		leiloesPage = this.loginPage.realizaLoginComo("fulano", "pass");
 	}
 	
 	@Entao("é redirecionado para a pagina de leiloes")
 	public void é_redirecionado_para_a_pagina_de_leiloes() {
 		Assert.assertTrue(this.leiloesPage.estaNaPaginaDeLeiloes());
+		browser.clean();
 	}
 
 	
 	@Dado("o usuario invalido")
 	public void o_usuario_invalido() {
+		browser = new Browser();
+		browser.seed();
+		loginPage = browser.getLoginPage();
 	}
 
 
 	@Quando("tenta se logar")
 	public void tenta_se_logar() {
+		leiloesPage = this.loginPage.realizaLoginComo("fulano", "password");
 	}
+	
 	@Entao("continua na página de login")
 	public void continua_na_página_de_login() {
+		Assert.assertTrue(this.loginPage.estaNaPaginaDeLoginComErro());
+		browser.clean();
 	}
 }
